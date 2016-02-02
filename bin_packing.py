@@ -1,4 +1,4 @@
-import queue
+#import queue
 
 """
 FIND_SOLUTION:
@@ -52,6 +52,8 @@ def place(curx, cury, rects):
 
         if rect.w > rect.h:
             locs[rect.id]= (0,cury)
+            print_recs(rect.id)
+            
             if rect.w > curx:
                 space.append(Empty_Space(curx, 0, rect.w-curx, cury))
                 curx=rect.w
@@ -60,6 +62,8 @@ def place(curx, cury, rects):
             cury+=rect.h
         else:
             locs[rect.id]=(curx,0)
+            print_recs(rect.id);
+            
             if rect.h > cury:
                 space.append(Empty_Space(0, cury, curx, rect.h-cury))
                 cury=rect.h
@@ -68,18 +72,25 @@ def place(curx, cury, rects):
             curx+=rect.w        
 
         space = sorted(space)
-        ###fill_spaces(space,rects)
+        fill_spaces(space,rects)
         #place(curx,cury,rects)
 
+def print_recs(i):
+    print("placed")
+    print(locs)
+    print()
+    print("placing...")
+    print(locs[i])
+    print()
+
 def fill_spaces(spaces, rects):
-    i=0
     while len(spaces)>0:
         space = spaces.pop()
         for i in range(len(rects)):
             if rects[i].w < space.w and rects[i].h < space.h:
                 rect = rects.pop(i)
                 locs[rect.id]=(space.x,space.y)
-                
+                print_recs(rect.id);
                 if(space.w-rect.w>0):
                     spaces.append(Empty_Space(rect.w,space.y,space.w-rect.w, rect.h))
                 if(space.h-rect.h>0):
