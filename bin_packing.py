@@ -72,9 +72,18 @@ def place(curx, cury, rects):
         #place(curx,cury,rects)
 
 def fill_spaces(spaces, rects):
-    
-    print('here')
-
+    i=0
+    while len(spaces)>0:
+        space = spaces.pop()
+        for i in range(len(rects)):
+            if rects[i].w < space.w and rects[i].h < space.h:
+                rect = rects.pop(i)
+                locs[rect.id]=(space.x,space.y)
+                
+                if(space.w-rect.w>0):
+                    spaces.append(Empty_Space(rect.w,space.y,space.w-rect.w, rect.h))
+                if(space.h-rect.h>0):
+                    spaces.append(Empty_Space(space.x, rect.h, rect, space.h-rect.h))    
 
 class Rectangle:
     def __init__(self,id , w,h):
