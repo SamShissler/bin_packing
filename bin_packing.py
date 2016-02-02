@@ -72,7 +72,8 @@ def place(curx, cury, rects):
             curx+=rect.w        
 
         space = sorted(space)
-        fill_spaces(space,rects)
+        if len(rects)>0:
+            fill_spaces(space,rects)
         #place(curx,cury,rects)
 
 def print_recs(i):
@@ -86,15 +87,22 @@ def print_recs(i):
 def fill_spaces(spaces, rects):
     while len(spaces)>0:
         space = spaces.pop()
-        for i in range(len(rects)):
-            if rects[i].w < space.w and rects[i].h < space.h:
-                rect = rects.pop(i)
-                locs[rect.id]=(space.x,space.y)
-          #      print_recs(rect.id);
-                if(space.w-rect.w>0):
-                    spaces.append(Empty_Space(rect.w,space.y,space.w-rect.w, rect.h))
-                if(space.h-rect.h>0):
-                    spaces.append(Empty_Space(space.x, rect.h, rect, space.h-rect.h))    
+        length = len(rects)
+        for i in range(length):
+            try:
+                if rects[i].w <= space.w and rects[i].h <= space.h:
+                    rect = rects.pop(i)
+                    length-=1
+                    locs[rect.id]=(space.pt[0],space.pt[1])
+            except:
+                whyisthisanerror = 0
+                
+'''                    
+if(space.w-rect.w>0):
+spaces.append(Empty_Space(space.pt[0]+rect.w,space.pt[1],space.w-rect.w, space.h))
+if(space.h-rect.h>10000):
+spaces.append(Empty_Space(space.pt[0], space.pt[1]+rect.h, rect.w, space.h-rect.h))   
+''' 
 
 class Rectangle:
     def __init__(self,id , w,h):
